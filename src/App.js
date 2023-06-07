@@ -2,19 +2,6 @@ import logo from "./logo.svg";
 import "./App.css";
 import { useState } from "react";
 
-function ClickerBut() {
-  console.log("rendered");
-  const [value, setValue] = useState(0);
-  function clicked() {
-    console.log(value);
-    setValue(value + 1);
-  }
-  return (
-    <button className="clicker-button" onClick={clicked}>
-      {value}
-    </button>
-  );
-}
 const Entry = ({ selected, pokemon, handleClick }) => {
   return (
     <>
