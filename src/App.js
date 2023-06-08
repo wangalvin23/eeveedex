@@ -1,11 +1,15 @@
-import logo from "./logo.svg";
+import React from "react";
 import "./App.css";
 import { useState } from "react";
 
 const Entry = ({ selected, pokemon, handleClick }) => {
   return (
     <>
-      <button className="entry" onClick={() => handleClick(pokemon.id)}>
+      <button
+        type="submit"
+        className="entry"
+        onClick={() => handleClick(pokemon)}
+      >
         {`${selected === pokemon.id ? "X - " : ""}${pokemon.name}`}
       </button>
     </>
@@ -25,8 +29,22 @@ const POKEMON = [
 ];
 
 const EntryArray = ({ selected, setSelected }) => {
-  const handleClick = (id) => {
-    setSelected(id);
+  const handleClick = async (pokemon) => {
+    setSelected(pokemon.id);
+    console.log(pokemon.id + pokemon.name + pokemon.img);
+    await fetch("/api/pokemon", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        pokemonForm: {
+          id: pokemon.id,
+          name: pokemon.name,
+          img: pokemon.img,
+        },
+      }),
+    });
   };
 
   return (
@@ -56,6 +74,33 @@ const App = () => {
       ? POKEMON.find((pokemon) => pokemon.id === selected)
       : null;
 
+  /*const [data, setData] = React.useState(null);
+  React.useEffect(() => {
+    fetch("/api")
+      .then((res) => res.json())
+      .then((data) => setData(data.message));
+  }, []);
+      <p>{!data ? "Loading..." : data}</p>*/
+
+  /*<form action="/post" method="post" className="form">
+      <button type="submit">Connected?</button>
+    </form>*/
+
+  /*React.useEffect(() => {
+    fetch("/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        user: {
+          name: "John",
+          email: "john@example.com",
+        },
+      }),
+    });
+  });*/
+  console.log("I am on", window.location.pathname);
   return (
     <>
       <div className="navbar">
