@@ -68,24 +68,6 @@ const PokemonDisplay = ({ displayPokemon }) => {
 };
 
 const App = () => {
-  const [selected, setSelected] = useState(null);
-  const displayPokemon =
-    selected !== null
-      ? POKEMON.find((pokemon) => pokemon.id === selected)
-      : null;
-
-  /*const [data, setData] = React.useState(null);
-  React.useEffect(() => {
-    fetch("/api")
-      .then((res) => res.json())
-      .then((data) => setData(data.message));
-  }, []);
-      <p>{!data ? "Loading..." : data}</p>*/
-
-  /*<form action="/post" method="post" className="form">
-      <button type="submit">Connected?</button>
-    </form>*/
-
   /*React.useEffect(() => {
     fetch("/", {
       method: "POST",
@@ -100,7 +82,21 @@ const App = () => {
       }),
     });
   });*/
-  console.log("I am on", window.location.pathname);
+
+  const [data, setData] = React.useState(null);
+  React.useEffect(() => {
+    fetch("/api/pokemon")
+      .then((res) => res.json())
+      .then((data) => setData(JSON.stringify(data.message)));
+  }, []);
+
+  const [selected, setSelected] = useState(null);
+  const displayPokemon =
+    selected !== null
+      ? POKEMON.find((pokemon) => pokemon.id === selected)
+      : null;
+
+  //console.log("I am on", window.location.pathname);
   return (
     <>
       <div className="navbar">
@@ -109,6 +105,7 @@ const App = () => {
       <div className="display">
         <PokemonDisplay displayPokemon={displayPokemon} />
       </div>
+      <p>{!data ? "Loading..." : data}</p>
     </>
   );
 };
